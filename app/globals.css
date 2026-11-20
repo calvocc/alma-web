@@ -60,8 +60,6 @@ a:hover { color: var(--ocre-hover); }
 }
 .header-fixed { position: fixed; left: 0; right: 0; top: 0; pointer-events: none; background: linear-gradient(180deg, rgba(236, 233, 226, .94) 0%, rgba(236, 233, 226, .7) 60%, rgba(236, 233, 226, 0) 100%); }
 .header-fixed a { pointer-events: auto; }
-.header-sticky { position: fixed; left: 0; right: 0; top: 0; background: transparent; border-bottom: 1px solid transparent; transition: background-color .3s ease, border-color .3s ease, backdrop-filter .3s ease; }
-.header-sticky.con-fondo { background: rgba(236, 233, 226, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom-color: rgba(27, 26, 25, .08); }
 .header-logo img { height: 52px; width: auto; }
 .nav { display: flex; align-items: center; gap: clamp(14px, 3vw, 34px); font-family: var(--lemon); font-size: 13px; letter-spacing: .14em; }
 .nav a:not(.btn) { color: var(--carbon); text-decoration: none; padding-bottom: 4px; border-bottom: 1.5px solid transparent; }

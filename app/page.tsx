@@ -47,7 +47,7 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Header variant="fixed" active="inicio" />
+      <Header active="inicio" />
       <main>
         <ScrollJourney />
 
