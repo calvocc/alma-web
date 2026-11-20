@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase, visitanteId } from '@/lib/supabase';
+import { visitanteId } from '@/lib/visitante';
 import { IconFacebook, IconHeart, IconInstagram, IconLink, IconWhatsApp } from '@/components/Icons';
 
 type Props = { slug: string; url: string; mensaje: string; historia?: string };
@@ -10,29 +10,37 @@ export default function Acciones({ slug, url, mensaje, historia }: Props) {
   const [liked, setLiked] = useState(false);
   const [copiado, setCopiado] = useState(false);
 
-  // ¿Este navegador ya marcó la charla?
+  // ¿Este navegador ya marcó la charla? Primero lo que recuerda el dispositivo, luego lo confirma el servidor.
   useEffect(() => {
-    const sb = supabase();
-    const id = visitanteId();
     const local = (() => { try { return window.localStorage.getItem(`alma-hablo-${slug}`) === '1'; } catch { return false; } })();
     queueMicrotask(() => setLiked(local));
-    if (!sb || !id) return;
-    sb.rpc('me_hablo', { p_charla: slug, p_visitante: id }).then(({ data }) => {
-      if (typeof data === 'boolean') setLiked(data);
-    });
+    const id = visitanteId();
+    if (!id) return;
+    const ctrl = new AbortController();
+    fetch(`/api/reacciones?charla=${encodeURIComponent(slug)}&visitante=${id}`, { signal: ctrl.signal })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { liked?: boolean } | null) => { if (d && typeof d.liked === 'boolean') setLiked(d.liked); })
+      .catch(() => { /* sin servidor (por ejemplo en desarrollo): queda lo local */ });
+    // Los dos grupos de botones (arriba y al final) se mantienen sincronizados.
+    const sync = (e: Event) => { const d = (e as CustomEvent<{ slug: string; liked: boolean }>).detail; if (d.slug === slug) setLiked(d.liked); };
+    window.addEventListener('alma-hablo', sync);
+    return () => { ctrl.abort(); window.removeEventListener('alma-hablo', sync); };
   }, [slug]);
 
   const toggle = async () => {
     const next = !liked;
     setLiked(next);
     try { window.localStorage.setItem(`alma-hablo-${slug}`, next ? '1' : '0'); } catch { /* sin almacenamiento */ }
-    const sb = supabase();
+    window.dispatchEvent(new CustomEvent('alma-hablo', { detail: { slug, liked: next } }));
     const id = visitanteId();
-    if (!sb || !id) return;
-    const { error } = next
-      ? await sb.from('reacciones').insert({ charla: slug, visitante: id })
-      : await sb.rpc('quitar_reaccion', { p_charla: slug, p_visitante: id });
-    if (error && error.code !== '23505') setLiked(!next);
+    if (!id) return;
+    try {
+      await fetch('/api/reacciones', {
+        method: next ? 'POST' : 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ charla: slug, visitante: id }),
+      });
+    } catch { /* si falla la red, queda guardado en el dispositivo */ }
   };
 
   const copiar = async () => {

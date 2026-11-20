@@ -40,6 +40,25 @@ No se publican las notas para el facilitador ni el PDF completo del mensaje: sol
 
 ## "Esto me habló"
 
-Se guarda en Supabase de forma anónima. Cada navegador tiene un identificador al azar; no se guarda nombre, correo ni IP. La tabla y sus reglas están en `supabase/migrations/001_reacciones.sql`. El conteo por charla se ve en la vista `reacciones_por_charla`, que solo es visible desde el panel de Supabase.
+Se guarda en **Cloudflare D1** de forma anónima. Cada navegador tiene un identificador al azar; no se guarda nombre, correo ni IP.
 
-Si Supabase no está configurado, el botón sigue funcionando y solo se recuerda en el dispositivo de la persona.
+- La función `functions/api/reacciones.ts` recibe las marcas y es lo único que toca la base. Cloudflare Pages la publica sola junto al sitio.
+- La tabla está en `migrations/0001_reacciones.sql`.
+- La API nunca devuelve conteos. Para verlos, abre la consola de D1 en Cloudflare y corre:
+  `SELECT charla, COUNT(*) AS personas FROM reacciones GROUP BY charla ORDER BY personas DESC;`
+
+### Configurar D1 (una sola vez)
+
+1. En Cloudflare: **Storage & Databases → D1 → Create database**, con el nombre `alma`.
+2. En la consola de esa base, pega y ejecuta el contenido de `migrations/0001_reacciones.sql`.
+3. En el proyecto de Pages: **Settings → Bindings → Add → D1 database**, con el nombre de la variable `DB` y la base `alma`. Luego vuelve a publicar.
+
+Sin D1 conectado, el botón sigue funcionando y solo se recuerda en el dispositivo de la persona.
+
+### Probar en local con la función y la base
+
+```bash
+npm run preview   # compila y levanta http://localhost:8788 con una D1 local
+```
+
+La primera vez, crea la tabla en la base local con `migrations/0001_reacciones.sql`.
