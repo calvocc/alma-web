@@ -36,7 +36,7 @@ export default function CharlasPage() {
         </section>
 
         {u && (
-          <section aria-labelledby="ultima" style={{ padding: '0 var(--pad-x)' }}>
+          <section aria-labelledby="ultima" style={{ padding: 'clamp(28px, 4vw, 56px) var(--pad-x) 0' }}>
             <div className="wrap banner">
               <div className="banner-glow" aria-hidden="true" />
               <div className="banner-text">
