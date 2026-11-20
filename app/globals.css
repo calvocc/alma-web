@@ -200,11 +200,18 @@ a:hover { color: var(--ocre-hover); }
 }
 
 /* Detalle de charla */
-.charla-hero { padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(36px, 5vw, 56px); }
-.charla-hero-inner { display: flex; flex-wrap: wrap-reverse; align-items: center; gap: clamp(24px, 4vw, 48px); }
-.charla-hero-text { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
-.charla-hero-figure { position: relative; flex: 1 1 360px; min-height: clamp(300px, 34vw, 520px); align-self: stretch; margin: 0; }
-.charla-hero-figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 80% 40%; border-radius: 24px; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%); mask-image: linear-gradient(90deg, transparent 0%, #000 30%); }
+.charla-hero { position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(36px, 5vw, 56px); }
+.charla-hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; }
+.charla-hero-text { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.charla-hero-figure { position: relative; margin: calc(-1 * clamp(48px, 7vw, 96px)) calc(-1 * var(--pad-x)) 28px; height: clamp(260px, 62vw, 460px); }
+.charla-hero-figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% 45%; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
+@media (min-width: 1000px) {
+  .charla-hero { min-height: calc(100svh - 89px); display: flex; align-items: center; }
+  .charla-hero-inner { width: 100%; }
+  .charla-hero-text { max-width: min(760px, 58%); }
+  .charla-hero-figure { position: absolute; z-index: 0; top: 0; right: 0; bottom: 0; width: 58vw; height: auto; margin: 0; }
+  .charla-hero-figure img { -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .55) 22%, #000 45%); mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, .55) 22%, #000 45%); }
+}
 .charla-hero-figure figcaption, .banner-figure figcaption { position: absolute; z-index: 1; right: 18px; bottom: 14px; font-family: var(--lemon); font-weight: 300; font-size: 11px; letter-spacing: .14em; color: var(--carbon); }
 .charla-title { margin: 0; font-family: var(--lemon); font-weight: 400; font-size: clamp(44px, 7.5vw, 104px); line-height: 1.02; letter-spacing: .01em; }
 .frase-hero { margin: 0; max-width: 720px; font-family: var(--lemon); font-size: clamp(20px, 2.2vw, 30px); line-height: 1.25; color: var(--ocre); text-transform: uppercase; padding-left: 18px; border-left: 2px solid var(--ocre); }

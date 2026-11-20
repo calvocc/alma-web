@@ -66,6 +66,13 @@ export default async function CharlaPage({ params }: Params) {
       <main>
         <article>
           <section className="charla-hero hero-bruma">
+            {c.pintura && (
+                <figure className="charla-hero-figure">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.pintura} alt={c.pinturaAlt ?? ''} />
+                  {c.pinturaCita && <figcaption>{c.pinturaCita.toUpperCase()}</figcaption>}
+                </figure>
+              )}
             <div className="wrap charla-hero-inner">
               <div className="charla-hero-text">
                 <nav aria-label="Ruta" className="kicker">
@@ -92,13 +99,6 @@ export default async function CharlaPage({ params }: Params) {
                   <Acciones slug={c.slug} url={url} mensaje={mensaje} historia={c.historia} />
                 </div>
               </div>
-              {c.pintura && (
-                <figure className="charla-hero-figure">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={c.pintura} alt={c.pinturaAlt ?? ''} />
-                  {c.pinturaCita && <figcaption>{c.pinturaCita.toUpperCase()}</figcaption>}
-                </figure>
-              )}
             </div>
           </section>
 
