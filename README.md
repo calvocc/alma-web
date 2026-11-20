@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alma · sitio web
 
-## Getting Started
+Sitio de Alma (estoesalma.co): la página de inicio con el recorrido en video y la sección de charlas.
 
-First, run the development server:
+Hecho con Next.js como **sitio estático**: `npm run build` genera la carpeta `out/`, que se publica en Cloudflare Pages.
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # y completa los valores
+npm run dev                  # http://localhost:3000
+npm run build                # genera out/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Publicar en Cloudflare Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. En Cloudflare: Workers & Pages → Create → Pages → conectar este repositorio.
+2. Framework preset: **Next.js (Static HTML Export)**.
+3. Build command: `npm run build` · Build output directory: `out`.
+4. Variables de entorno: las de `.env.example`.
+5. En Custom domains, agrega `estoesalma.co`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Cada push a `main` publica el sitio solo.
 
-## Learn More
+## Subir una charla nueva
 
-To learn more about Next.js, take a look at the following resources:
+1. Agrega su entrada en `content/charlas.ts` con `publicada: true` y sus datos.
+2. Escribe el texto en `content/charlas/<slug>.mdx`. Puedes usar:
+   - `<Versiculo cita="Hechos 3:6">…</Versiculo>`
+   - `<Recuadro titulo="…">…</Recuadro>`
+   - `<Pulso preguntas={['…', '…']} />`
+3. Pon los archivos en `public/`:
+   - `charlas/<slug>.webp`: la pintura.
+   - `charlas/<slug>-og.jpg`: la vista previa para compartir, de 1200×630.
+   - `charlas/<slug>-historia.jpg`: la historia de Instagram, de 1080×1920.
+   - `antes-de-alma/charla-<n>.pdf`: el Antes de Alma de esa semana.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+No se publican las notas para el facilitador ni el PDF completo del mensaje: solo el resumen.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## "Esto me habló"
 
-## Deploy on Vercel
+Se guarda en Supabase de forma anónima. Cada navegador tiene un identificador al azar; no se guarda nombre, correo ni IP. La tabla y sus reglas están en `supabase/migrations/001_reacciones.sql`. El conteo por charla se ve en la vista `reacciones_por_charla`, que solo es visible desde el panel de Supabase.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Si Supabase no está configurado, el botón sigue funcionando y solo se recuerda en el dispositivo de la persona.
