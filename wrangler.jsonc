@@ -1,0 +1,23 @@
+{
+  // Cloudflare Workers: sitio estático de Next (carpeta `out`) + API de "Esto me habló".
+  // Build command: npm run build · Deploy command: npx wrangler deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "alma-web",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./out",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "alma",
+      "database_id": "07d5f143-0972-41fe-999e-0b22fb87b74a",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}

@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "db:local": "wrangler d1 execute alma --local --file=migrations/0001_reacciones.sql",
-    "preview": "npm run build && wrangler pages dev out --d1 DB=alma",
-    "typecheck:functions": "tsc -p functions",
-    "og": "python3 scripts/og.py"
+    "preview": "npm run build && wrangler dev",
+    "og": "python3 scripts/og.py",
+    "typecheck:worker": "tsc -p worker",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

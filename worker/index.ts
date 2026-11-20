@@ -1,5 +1,5 @@
 /**
- * "Esto me habló" · Cloudflare Pages Function + D1.
+ * Worker de Alma: sirve el sitio estático (carpeta `out`) y la API de "Esto me habló" con D1.
  *
  *   GET    /api/reacciones?charla=<slug>&visitante=<uuid>  → { liked: boolean }
  *   POST   /api/reacciones  { charla, visitante }          → guarda la marca
@@ -7,10 +7,11 @@
  *
  * Nunca devuelve la lista ni los conteos: eso solo se ve desde el panel de Cloudflare.
  */
-import { CHARLAS } from '../../content/charlas';
+import { CHARLAS } from '../content/charlas';
 
 interface Env {
   DB: D1Database;
+  ASSETS: Fetcher;
 }
 
 const SLUGS = new Set(CHARLAS.map((c) => c.slug));
@@ -25,18 +26,18 @@ const json = (data: unknown, status = 200) =>
 function valido(charla: unknown, visitante: unknown): { charla: string; visitante: string } | null {
   if (typeof charla !== 'string' || typeof visitante !== 'string') return null;
   if (!SLUGS.has(charla) || !UUID.test(visitante)) return null;
-  return { charla, visitante: visitante.toLowerCase() };
+  return { charla, visitante: visitante.toLowerCase() }
 }
 
 async function leerCuerpo(request: Request) {
   try {
-    return (await request.json()) as { charla?: unknown; visitante?: unknown };
+    return (await request.json()) as { charla?: unknown; visitante?: unknown }
   } catch {
-    return {};
+    return {}
   }
 }
 
-export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
+async function leer(request: Request, env: Env) {
   const url = new URL(request.url);
   const v = valido(url.searchParams.get('charla'), url.searchParams.get('visitante'));
   if (!v) return json({ error: 'datos inválidos' }, 400);
@@ -44,9 +45,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     .bind(v.charla, v.visitante)
     .first();
   return json({ liked: Boolean(fila) });
-};
+}
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+async function marcar(request: Request, env: Env) {
   const b = await leerCuerpo(request);
   const v = valido(b.charla, b.visitante);
   if (!v) return json({ error: 'datos inválidos' }, 400);
@@ -54,9 +55,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     .bind(v.charla, v.visitante)
     .run();
   return json({ liked: true });
-};
+}
 
-export const onRequestDelete: PagesFunction<Env> = async ({ request, env }) => {
+async function desmarcar(request: Request, env: Env) {
   const b = await leerCuerpo(request);
   const v = valido(b.charla, b.visitante);
   if (!v) return json({ error: 'datos inválidos' }, 400);
@@ -64,4 +65,21 @@ export const onRequestDelete: PagesFunction<Env> = async ({ request, env }) => {
     .bind(v.charla, v.visitante)
     .run();
   return json({ liked: false });
-};
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const { pathname } = new URL(request.url);
+    if (pathname === '/api/reacciones') {
+      try {
+        if (request.method === 'GET') return await leer(request, env);
+        if (request.method === 'POST') return await marcar(request, env);
+        if (request.method === 'DELETE') return await desmarcar(request, env);
+        return json({ error: 'método no permitido' }, 405);
+      } catch {
+        return json({ error: 'no se pudo guardar' }, 500);
+      }
+    }
+    return env.ASSETS.fetch(request);
+  },
+} satisfies ExportedHandler<Env>;
