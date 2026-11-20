@@ -5,14 +5,13 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Lockup from '@/components/Lockup';
 import Acciones from '@/components/charlas/Acciones';
-import { IconDownload } from '@/components/Icons';
-import { BLOQUES, CHARLAS, charlaPorSlug, publicadas } from '@/content/charlas';
+import { BLOQUES, CHARLAS, PROXIMA, charlaPorSlug, ogDe, ultima } from '@/content/charlas';
 import { SITE, absoluteUrl, whatsappLink } from '@/lib/site';
 
 type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return publicadas().map((c) => ({ slug: c.slug }));
+  return CHARLAS.map((c) => ({ slug: c.slug }));
 }
 
 export const dynamicParams = false;
@@ -24,14 +23,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const titulo = `${c.titulo} · Charla ${c.n}`;
   return {
     title: titulo,
-    description: c.resumen ?? c.frase,
+    description: c.resumen,
     alternates: { canonical: `/charlas/${c.slug}/` },
     openGraph: {
       type: 'article',
       title: `${titulo} · Alma`,
       description: c.frase,
       url: `/charlas/${c.slug}/`,
-      images: c.og ? [{ url: c.og, width: 1200, height: 630, alt: c.frase }] : undefined,
+      images: [{ url: ogDe(c.slug), width: 1200, height: 630, alt: c.frase }],
     },
   };
 }
@@ -44,15 +43,17 @@ export default async function CharlaPage({ params }: Params) {
   const { default: Contenido } = await import(`@/content/charlas/${slug}.mdx`);
   const url = absoluteUrl(`/charlas/${c.slug}/`);
   const bloque = BLOQUES.find((b) => b.id === c.bloque)?.nombre ?? '';
-  const anterior = CHARLAS.filter((x) => x.publicada && x.n < c.n).sort((a, b) => b.n - a.n)[0];
+  const anterior = CHARLAS.filter((x) => x.n < c.n).sort((a, b) => b.n - a.n)[0];
+  const siguiente = CHARLAS.filter((x) => x.n > c.n).sort((a, b) => a.n - b.n)[0];
+  const esLaUltima = ultima().slug === c.slug;
   const mensaje = c.fraseCorta && c.fraseScript ? `«${c.fraseCorta.replace(/\.$/, '')}: ${c.fraseScript}.» Charla ${c.n} de Alma ·` : `«${c.frase}» Charla ${c.n} de Alma ·`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: c.titulo,
-    description: c.resumen ?? c.frase,
-    image: c.og ? absoluteUrl(c.og) : undefined,
+    description: c.resumen,
+    image: absoluteUrl(ogDe(c.slug)),
     inLanguage: 'es-CO',
     publisher: { '@type': 'Organization', name: 'Alma', url: SITE.url },
     mainEntityOfPage: url,
@@ -77,6 +78,9 @@ export default async function CharlaPage({ params }: Params) {
                       hilo="M-170 150 C -120 150 -90 88 -40 83 C -12 80 18 80 40 79.5"
                       lineas={[{ texto: c.fraseScript, x: 40, y: 110 }]} />
                   </div>
+                )}
+                {!c.fraseScript && (
+                  <p className="frase-hero">{c.frase}</p>
                 )}
                 <p className="lead" style={{ maxWidth: 640, fontSize: 'clamp(18px, 1.5vw, 21px)' }}>{c.resumen}</p>
                 <div className="metas kicker">
@@ -109,22 +113,29 @@ export default async function CharlaPage({ params }: Params) {
               </div>
 
               <aside className="lateral">
-                {c.antesDeAlma && (
-                  <div className="card-dark">
-                    <p className="kicker" style={{ color: '#CFCAC0' }}>ANTES DE ALMA · CHARLA {c.n}</p>
-                    <p className="lemon" style={{ margin: 0, fontSize: 22, lineHeight: 1.25 }}>Léelo, piénsalo y llega con algo que aportar.</p>
-                    <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#CFCAC0' }}>Los textos de la semana y tres preguntas para pensar antes del domingo.</p>
-                    <a className="btn btn-ocre" href={c.antesDeAlma} download style={{ alignSelf: 'flex-start' }}><IconDownload /><span>DESCARGAR PDF</span></a>
-                  </div>
-                )}
-                {c.proxima && (
+                {esLaUltima ? (
                   <div className="card-line">
-                    <p className="kicker">EL PRÓXIMO DOMINGO</p>
-                    <p style={{ margin: 0, fontStyle: 'italic', fontSize: 19, lineHeight: 1.55 }}>{c.proxima.cita}</p>
-                    <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#3A3835' }}>{c.proxima.texto}</p>
-                    <a className="btn btn-primary" href={whatsappLink()} style={{ alignSelf: 'flex-start' }}>QUIERO IR</a>
+                    <p className="kicker">EL PRÓXIMO DOMINGO · CHARLA {PROXIMA.n}</p>
+                    <p className="lemon" style={{ margin: 0, fontSize: 20, lineHeight: 1.25 }}>{PROXIMA.titulo.toUpperCase()}</p>
+                    <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#3A3835' }}>{PROXIMA.idea}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                      <a className="btn btn-primary" href={whatsappLink()}>QUIERO IR</a>
+                      <Link className="btn btn-ghost" href="/charlas/#esta-semana">ANTES DE ALMA</Link>
+                    </div>
                   </div>
-                )}
+                ) : siguiente ? (
+                  <Link className="card-line card-link" href={`/charlas/${siguiente.slug}/`}>
+                    <p className="kicker">LA SIGUIENTE · CHARLA {siguiente.n}</p>
+                    <p className="lemon" style={{ margin: 0, fontSize: 20, lineHeight: 1.25 }}>{siguiente.titulo.toUpperCase()}</p>
+                    <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: '#3A3835' }}>{siguiente.resumen}</p>
+                    <span className="kicker" style={{ color: 'var(--ocre)' }}>LEER →</span>
+                  </Link>
+                ) : null}
+                <div className="card-dark">
+                  <p className="kicker" style={{ color: '#CFCAC0' }}>ESTO SE CONVERSÓ UN DOMINGO EN UNA CASA</p>
+                  <p className="lemon" style={{ margin: 0, fontSize: 20, lineHeight: 1.3 }}>La próxima vez, ven a conversarlo con nosotros.</p>
+                  <a className="btn btn-ocre" href={whatsappLink()} style={{ alignSelf: 'flex-start' }}>QUIERO IR</a>
+                </div>
               </aside>
             </div>
           </div>

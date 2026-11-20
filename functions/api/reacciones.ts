@@ -7,13 +7,13 @@
  *
  * Nunca devuelve la lista ni los conteos: eso solo se ve desde el panel de Cloudflare.
  */
-import { publicadas } from '../../content/charlas';
+import { CHARLAS } from '../../content/charlas';
 
 interface Env {
   DB: D1Database;
 }
 
-const SLUGS = new Set(publicadas().map((c) => c.slug));
+const SLUGS = new Set(CHARLAS.map((c) => c.slug));
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const json = (data: unknown, status = 200) =>

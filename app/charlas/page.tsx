@@ -4,12 +4,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Lockup from '@/components/Lockup';
 import CharlasIndex from '@/components/charlas/CharlasIndex';
-import { CHARLAS, ultima } from '@/content/charlas';
+import { CHARLAS, PROXIMA, ultima } from '@/content/charlas';
 import { IconDownload } from '@/components/Icons';
 
 export const metadata: Metadata = {
   title: 'Charlas',
-  description: 'Lo que hemos conversado en Alma, para volver cuando quieras: las charlas de cada domingo y el Antes de Alma de cada semana.',
+  description: 'Lo que hemos conversado en Alma, para volver cuando quieras: las charlas de cada domingo y el Antes de Alma de la que viene.',
   alternates: { canonical: '/charlas/' },
 };
 
@@ -54,7 +54,6 @@ export default function CharlasPage() {
                 <p style={{ margin: 0, maxWidth: 520, fontSize: 18, lineHeight: 1.65, color: '#CFCAC0' }}>{u.resumen}</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 8 }}>
                   <Link className="btn btn-ocre" href={`/charlas/${u.slug}/`}>LEER LA CHARLA</Link>
-                  {u.antesDeAlma && <a className="btn btn-dark" href={u.antesDeAlma} download><IconDownload size={18} /><span>ANTES DE ALMA</span></a>}
                 </div>
               </div>
               {u.pintura && (
@@ -67,6 +66,22 @@ export default function CharlasPage() {
             </div>
           </section>
         )}
+
+
+        <section aria-labelledby="esta-semana" style={{ padding: 'clamp(20px, 3vw, 28px) var(--pad-x) 0' }}>
+          <div className="wrap proxima">
+            <div className="proxima-text">
+              <p className="kicker" style={{ color: 'var(--ocre)', letterSpacing: '.18em' }}>ESTE DOMINGO · CHARLA {PROXIMA.n}</p>
+              <h2 id="esta-semana" className="lemon" style={{ margin: 0, fontWeight: 400, fontSize: 'clamp(24px, 2.8vw, 36px)', lineHeight: 1.1 }}>{PROXIMA.titulo.toUpperCase()}</h2>
+              <p style={{ margin: 0, maxWidth: 620, fontSize: 17, lineHeight: 1.6, color: 'var(--texto)' }}>{PROXIMA.idea}</p>
+              <p className="kicker">PARA LEER ANTES: {PROXIMA.textos.toUpperCase()}</p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+              <a className="btn btn-ocre" href={PROXIMA.antesDeAlma} download><IconDownload size={18} /><span>ANTES DE ALMA</span></a>
+              <span className="kicker" style={{ maxWidth: 240 }}>Léelo, piénsalo y llega con algo que aportar.</span>
+            </div>
+          </div>
+        </section>
 
         <section aria-labelledby="todas" style={{ padding: 'clamp(48px, 6vw, 80px) var(--pad-x) clamp(56px, 7vw, 96px)' }}>
           <CharlasIndex charlas={CHARLAS} />

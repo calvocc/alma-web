@@ -8,7 +8,7 @@ import { IconArrow } from '@/components/Icons';
 
 export default function CharlasIndex({ charlas }: { charlas: Charla[] }) {
   const [filtro, setFiltro] = useState<'todas' | Bloque>('todas');
-  const primera = charlas.find((c) => c.publicada) ?? charlas[0];
+  const primera = [...charlas].sort((a, b) => b.n - a.n)[0];
   const [activa, setActiva] = useState(primera.slug);
   const act = charlas.find((c) => c.slug === activa) ?? primera;
 
@@ -44,22 +44,18 @@ export default function CharlasIndex({ charlas }: { charlas: Charla[] }) {
                         <path pathLength={1} d="M2 10 C 40 2 80 16 120 8 S 200 2 238 9" fill="none" stroke="#9A6E22" strokeWidth={2} strokeLinecap="round" />
                       </svg>
                       <span className="row-meta">
-                        {c.publicada ? (c.slug === primera.slug ? `LA ÚLTIMA · ${c.textos?.toUpperCase() ?? ''}` : c.textos?.toUpperCase()) : 'PRONTO'}
+                        {c.slug === primera.slug ? `LA ÚLTIMA · ${c.textos.toUpperCase()}` : c.textos.toUpperCase()}
                       </span>
                     </span>
                     <span className="row-arrow" aria-hidden="true"><IconArrow /></span>
                   </>
                 );
                 const props = {
-                  className: `row ${activa === c.slug ? 'row-on' : ''} ${c.publicada ? '' : 'row-pronto'}`,
+                  className: `row ${activa === c.slug ? 'row-on' : ''}`,
                   onMouseEnter: () => setActiva(c.slug),
                   onFocus: () => setActiva(c.slug),
                 };
-                return c.publicada ? (
-                  <Link key={c.slug} href={`/charlas/${c.slug}/`} {...props}>{contenido}</Link>
-                ) : (
-                  <div key={c.slug} tabIndex={0} {...props} aria-label={`Charla ${c.n}, ${c.titulo}: pronto`}>{contenido}</div>
-                );
+                return <Link key={c.slug} href={`/charlas/${c.slug}/`} {...props}>{contenido}</Link>;
               })}
             </div>
           ))}
@@ -72,12 +68,7 @@ export default function CharlasIndex({ charlas }: { charlas: Charla[] }) {
             <p className="abierta-frase">{act.frase}</p>
             <p className="lemon" style={{ margin: 0, fontWeight: 700, fontSize: 14, letterSpacing: '.12em', color: 'var(--ocre)' }}>{act.titulo.toUpperCase()}</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 6 }}>
-              {act.publicada ? (
-                <Link className="btn btn-primary" href={`/charlas/${act.slug}/`}>LEER LA CHARLA</Link>
-              ) : (
-                <span className="kicker" style={{ alignSelf: 'center' }}>EL RESUMEN SE SUBE PRONTO</span>
-              )}
-              {act.antesDeAlma && <a className="btn btn-ghost" href={act.antesDeAlma} download>ANTES DE ALMA</a>}
+              <Link className="btn btn-primary" href={`/charlas/${act.slug}/`}>LEER LA CHARLA</Link>
             </div>
           </div>
           {act.pintura && (
