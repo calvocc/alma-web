@@ -39,7 +39,7 @@ def esc(t):
 logo_b64 = base64.b64encode(open(LOGO, 'rb').read()).decode()
 lw, lh = Image.open(LOGO).size
 todas = '--todas' in sys.argv
-MANUALES = {'en-el-nombre'}
+MANUALES = set()
 
 for c in charlas:
     destino = os.path.join(SALIDA, f"{c['slug']}-og.jpg")

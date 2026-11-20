@@ -61,7 +61,7 @@ export const CHARLAS: Charla[] = [
   {
     slug: 'en-el-nombre',
     n: 14,
-    titulo: 'En el nombre',
+    titulo: 'En el nombre de Jesús',
     bloque: 'jesus',
     frase: 'El nombre no es una contraseña. Es conocer a la persona.',
     fraseCorta: 'El nombre no es una contraseña.',
