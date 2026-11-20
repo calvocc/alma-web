@@ -1,5 +1,6 @@
 /* ───────────── Alma · estilos base ───────────── */
 :root {
+  --header-h: 89px;
   --hueso: #ECE9E2;
   --hueso-claro: #F5F2EC;
   --carbon: #1B1A19;
@@ -59,7 +60,8 @@ a:hover { color: var(--ocre-hover); }
 }
 .header-fixed { position: fixed; left: 0; right: 0; top: 0; pointer-events: none; background: linear-gradient(180deg, rgba(236, 233, 226, .94) 0%, rgba(236, 233, 226, .7) 60%, rgba(236, 233, 226, 0) 100%); }
 .header-fixed a { pointer-events: auto; }
-.header-sticky { position: sticky; top: 0; background: rgba(236, 233, 226, .92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(27, 26, 25, .08); }
+.header-sticky { position: fixed; left: 0; right: 0; top: 0; background: transparent; border-bottom: 1px solid transparent; transition: background-color .3s ease, border-color .3s ease, backdrop-filter .3s ease; }
+.header-sticky.con-fondo { background: rgba(236, 233, 226, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-bottom-color: rgba(27, 26, 25, .08); }
 .header-logo img { height: 52px; width: auto; }
 .nav { display: flex; align-items: center; gap: clamp(14px, 3vw, 34px); font-family: var(--lemon); font-size: 13px; letter-spacing: .14em; }
 .nav a:not(.btn) { color: var(--carbon); text-decoration: none; padding-bottom: 4px; border-bottom: 1.5px solid transparent; }
@@ -200,13 +202,13 @@ a:hover { color: var(--ocre-hover); }
 }
 
 /* Detalle de charla */
-.charla-hero { position: relative; overflow: hidden; padding: clamp(48px, 7vw, 96px) var(--pad-x) clamp(36px, 5vw, 56px); }
+.charla-hero { --hero-top: calc(var(--header-h) + clamp(32px, 5vw, 72px)); position: relative; overflow: hidden; padding: var(--hero-top) var(--pad-x) clamp(36px, 5vw, 56px); }
 .charla-hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; }
 .charla-hero-text { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
-.charla-hero-figure { position: relative; margin: calc(-1 * clamp(48px, 7vw, 96px)) calc(-1 * var(--pad-x)) 28px; height: clamp(260px, 62vw, 460px); }
+.charla-hero-figure { position: relative; margin: calc(-1 * var(--hero-top)) calc(-1 * var(--pad-x)) 28px; height: clamp(320px, 80vw, 520px); }
 .charla-hero-figure img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% 45%; -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, #000 70%, transparent 100%); }
 @media (min-width: 1000px) {
-  .charla-hero { min-height: calc(100svh - 89px); display: flex; align-items: center; }
+  .charla-hero { min-height: 100svh; display: flex; align-items: center; }
   .charla-hero-inner { width: 100%; }
   .charla-hero-text { max-width: min(760px, 58%); }
   .charla-hero-figure { position: absolute; z-index: 0; top: 0; right: 0; bottom: 0; width: 58vw; height: auto; margin: 0; }

@@ -19,7 +19,7 @@ export default function CharlasPage() {
     <>
       <Header active="charlas" />
       <main>
-        <section className="hero-bruma" style={{ padding: 'clamp(48px, 7vw, 96px) var(--pad-x) clamp(32px, 4vw, 48px)' }}>
+        <section className="hero-bruma" style={{ padding: 'calc(var(--header-h) + clamp(40px, 6vw, 80px)) var(--pad-x) clamp(32px, 4vw, 48px)' }}>
           <div className="wrap" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             <h1 className="h-display" style={{ fontSize: 'clamp(36px, 6vw, 80px)', lineHeight: 1.04 }}>LO QUE HEMOS<br />CONVERSADO</h1>
             <div style={{ paddingLeft: 'clamp(30px, 5vw, 80px)' }}>
