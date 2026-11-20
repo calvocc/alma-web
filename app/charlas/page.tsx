@@ -70,19 +70,19 @@ export default function CharlasPage() {
 
         <section aria-labelledby="esta-semana" style={{ padding: 'clamp(20px, 3vw, 28px) var(--pad-x) 0' }}>
           <div className="wrap proxima">
+            <figure className="proxima-figure">
+              {PROXIMA.pintura && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={PROXIMA.pintura} alt={PROXIMA.pinturaAlt ?? ''} />
+              )}
+              <a className="btn btn-ocre proxima-descarga" href={PROXIMA.antesDeAlma} download><IconDownload size={18} /><span>DESCARGAR ANTES DE ALMA</span></a>
+            </figure>
             <div className="proxima-text">
               <p className="kicker" style={{ color: 'var(--ocre)', letterSpacing: '.18em' }}>ESTE DOMINGO · CHARLA {PROXIMA.n}</p>
-              <h2 id="esta-semana" className="lemon" style={{ margin: 0, fontWeight: 400, fontSize: 'clamp(24px, 2.8vw, 36px)', lineHeight: 1.1 }}>{PROXIMA.titulo.toUpperCase()}</h2>
-              <p style={{ margin: 0, maxWidth: 620, fontSize: 17, lineHeight: 1.6, color: 'var(--texto)' }}>{PROXIMA.idea}</p>
+              <h2 id="esta-semana" className="lemon" style={{ margin: 0, fontWeight: 400, fontSize: 'clamp(26px, 3vw, 40px)', lineHeight: 1.1 }}>{PROXIMA.titulo.toUpperCase()}</h2>
+              <p style={{ margin: 0, maxWidth: 560, fontSize: 17, lineHeight: 1.6, color: 'var(--texto)' }}>{PROXIMA.idea}</p>
               <p className="kicker">PARA LEER ANTES: {PROXIMA.textos.toUpperCase()}</p>
-            </div>
-            {PROXIMA.pintura && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img className="proxima-img" src={PROXIMA.pintura} alt={PROXIMA.pinturaAlt ?? ''} />
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
-              <a className="btn btn-ocre" href={PROXIMA.antesDeAlma} download><IconDownload size={18} /><span>ANTES DE ALMA</span></a>
-              <span className="kicker" style={{ maxWidth: 240 }}>Léelo, piénsalo y llega con algo que aportar.</span>
+              <p className="kicker" style={{ color: 'var(--ocre)' }}>Léelo, piénsalo y llega con algo que aportar.</p>
             </div>
           </div>
         </section>
