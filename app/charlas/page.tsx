@@ -76,6 +76,10 @@ export default function CharlasPage() {
               <p style={{ margin: 0, maxWidth: 620, fontSize: 17, lineHeight: 1.6, color: 'var(--texto)' }}>{PROXIMA.idea}</p>
               <p className="kicker">PARA LEER ANTES: {PROXIMA.textos.toUpperCase()}</p>
             </div>
+            {PROXIMA.pintura && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="proxima-img" src={PROXIMA.pintura} alt={PROXIMA.pinturaAlt ?? ''} />
+            )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
               <a className="btn btn-ocre" href={PROXIMA.antesDeAlma} download><IconDownload size={18} /><span>ANTES DE ALMA</span></a>
               <span className="kicker" style={{ maxWidth: 240 }}>Léelo, piénsalo y llega con algo que aportar.</span>

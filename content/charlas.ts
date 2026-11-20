@@ -2,7 +2,7 @@
  * Índice de charlas. Para publicar una charla nueva:
  * 1. Agrega su entrada aquí.
  * 2. Crea `content/charlas/<slug>.mdx` con el texto.
- * 3. Opcional: la pintura en `public/charlas/<slug>.webp` y la historia de Instagram en `<slug>-historia.jpg`.
+ * 3. La pintura en `public/charlas/<slug>.webp` (4:3, mínimo 1600 px). Opcional: la historia de Instagram en `<slug>-historia.jpg`.
  *    La vista previa para compartir (`<slug>-og.jpg`) se genera con `npm run og`.
  * 4. Actualiza PROXIMA con la charla que viene y su Antes de Alma en `public/antes-de-alma/`.
  */
@@ -34,6 +34,8 @@ export type Proxima = {
   textos: string;
   idea: string;
   antesDeAlma: string;
+  pintura?: string;
+  pinturaAlt?: string;
 };
 
 export const BLOQUES: { id: Bloque; nombre: string; etiqueta: string }[] = [
@@ -51,6 +53,8 @@ export const PROXIMA: Proxima = {
   textos: 'Juan 14:15-27 · Juan 16:5-15',
   idea: 'La última cena. Jesús les dice a sus amigos que se va, y que eso es bueno para ellos. ¿Quién es el que viene cuando Él se vaya? ¿Y qué podría ser mejor que tenerlo al lado en persona?',
   antesDeAlma: '/antes-de-alma/charla-15.pdf',
+  pintura: '/charlas/os-conviene-que-me-vaya.webp',
+  pinturaAlt: 'Pintura: la última cena dibujada a lápiz, con Jesús al centro de la mesa y una lámpara de aceite cuya llama se inclina',
 };
 
 export const CHARLAS: Charla[] = [
@@ -80,6 +84,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'La cruz fue el pago; la resurrección, el paz y salvo. Una tumba vacía, una muerte que llegó a cobrar sin encontrar deuda, y cómo sabemos que de verdad pasó.',
     textos: 'Mateo 28 · 1 Corintios 15',
     lectura: '5 min de lectura',
+    pintura: '/charlas/paz-y-salvo.webp',
+    pinturaAlt: 'Pintura: una tumba de piedra abierta al amanecer, con la piedra corrida y los lienzos doblados adentro; dos mujeres dibujadas a lápiz llegan con vasijas',
+    pinturaCita: 'Mateo 28:6',
   },
   {
     slug: 'consumado-es',
@@ -90,6 +97,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Si Jesús podía perdonar con una sola frase, ¿por qué tuvo que ir a la cruz? Tres razones que se juntan en una palabra: tetélestai.',
     textos: 'Juan 19 · Romanos 3 · Marcos 15',
     lectura: '5 min de lectura',
+    pintura: '/charlas/consumado-es.webp',
+    pinturaAlt: 'Pintura: una enorme cortina del templo rasgada de arriba abajo, con luz ocre que sale por la rasgadura',
+    pinturaCita: 'Marcos 15:38',
   },
   {
     slug: 'quien-es-este',
@@ -100,6 +110,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Cuatro amigos rompen un techo para llevar a uno que no puede caminar, y Jesús le dice algo que solo Dios tiene derecho a decir.',
     textos: 'Marcos 2 · Mateo 16',
     lectura: '5 min de lectura',
+    pintura: '/charlas/quien-es-este.webp',
+    pinturaAlt: 'Pintura: cuatro amigos dibujados a lápiz bajan a un hombre en una camilla por un hueco abierto en el techo de una casa',
+    pinturaCita: 'Marcos 2:4',
   },
   {
     slug: 'la-otra-fogata',
@@ -110,6 +123,9 @@ export const CHARLAS: Charla[] = [
     resumen: '¿Quién repara la relación que el pecado rompe, y cómo? ¿Dios me está cobrando lo que me pasa? Y una fogata en la playa donde Jesús espera a Pedro.',
     textos: '2 Samuel 12 · Isaías 53 · Juan 21',
     lectura: '6 min de lectura',
+    pintura: '/charlas/la-otra-fogata.webp',
+    pinturaAlt: 'Pintura: una fogata con pescado y pan en la orilla del lago al amanecer; un hombre dibujado a lápiz la atiende mientras se acerca una barca',
+    pinturaCita: 'Juan 21:9',
   },
   {
     slug: 'errar-el-blanco',
@@ -120,6 +136,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Antes de ser una palabra religiosa, pecar era fallar el tiro. El mejor tirador de Israel y el tiro más importante de su vida.',
     textos: '2 Samuel 11–12 · Salmo 51',
     lectura: '5 min de lectura',
+    pintura: '/charlas/errar-el-blanco.webp',
+    pinturaAlt: 'Pintura: un blanco de madera en un campo con niebla y una flecha clavada en el suelo, lejos del centro; el arquero, dibujado a lápiz, baja el arco',
+    pinturaCita: 'Salmo 51:10',
   },
   {
     slug: 'lo-que-no-te-toca-cargar',
@@ -130,6 +149,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Sobre la ansiedad, sin maquillaje: soltar es humildad y no debilidad, no estás solo en esto, y es Dios mismo quien repara lo que está roto.',
     textos: '1 Pedro 5:6-11',
     lectura: '3 min de lectura',
+    pintura: '/charlas/lo-que-no-te-toca-cargar.webp',
+    pinturaAlt: 'Pintura: unas manos dibujadas a lápiz remiendan con hilo ocre una red de pesca rota; al lado, una carga puesta en el suelo',
+    pinturaCita: '1 Pedro 5:10',
   },
   {
     slug: 'dios-santo',
@@ -140,6 +162,9 @@ export const CHARLAS: Charla[] = [
     resumen: '¿Cómo puede Dios ser apartado y cercano a la vez? Un profeta que dice “soy muerto” y un carbón del altar que vuela hacia él.',
     textos: 'Isaías 6 · 1 Pedro 1',
     lectura: '5 min de lectura',
+    pintura: '/charlas/dios-santo.webp',
+    pinturaAlt: 'Pintura: un hombre dibujado a lápiz, arrodillado entre columnas y humo, se cubre la cabeza mientras una brasa encendida vuela hacia él',
+    pinturaCita: 'Isaías 6:6-7',
   },
   {
     slug: 'dios-trino',
@@ -150,6 +175,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Un solo Dios que es relación desde antes del tiempo. Y nos hizo a esa imagen: no fuimos diseñados para sostenernos solos.',
     textos: 'Mateo 3 · Juan 1 · Juan 10',
     lectura: '4 min de lectura',
+    pintura: '/charlas/dios-trino.webp',
+    pinturaAlt: 'Pintura: una mesa larga de madera en un campo con niebla, con pan, una jarra y una lámpara; algunas personas sentadas y una silla corrida hacia afuera, como invitación',
+    pinturaCita: 'Juan 17:24',
   },
   {
     slug: 'dios-fiel',
@@ -160,6 +188,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Un texto escrito en medio de la ruina dice que sus misericordias son nuevas cada mañana. Su fidelidad no sube ni baja según cómo te fue esta semana.',
     textos: 'Lamentaciones 3 · 2 Timoteo 2 · Juan 17',
     lectura: '3 min de lectura',
+    pintura: '/charlas/dios-fiel.webp',
+    pinturaAlt: 'Pintura: un hombre dibujado a lápiz, sentado entre las ruinas de una muralla, mira un amanecer ocre a través de la niebla',
+    pinturaCita: 'Lamentaciones 3:22-23',
   },
   {
     slug: 'dios-padre-cercano',
@@ -170,6 +201,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'La mayoría imagina a Dios en la puerta, de brazos cruzados, esperando el discurso completo. Jesús contó la historia de un padre que sale corriendo.',
     textos: 'Lucas 15 · Mateo 1 · Romanos 8',
     lectura: '4 min de lectura',
+    pintura: '/charlas/dios-padre-cercano.webp',
+    pinturaAlt: 'Pintura: un padre con túnica ocre abraza a su hijo, flaco y con la ropa rota, en un camino de tierra',
+    pinturaCita: 'Lucas 15:20',
   },
   {
     slug: 'entre-los-arboles',
@@ -180,6 +214,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'La crisis de identidad no es una crisis de valor: es de memoria. El escondite entre los árboles, las hojas de higuera y el Dios que sale a buscarnos.',
     textos: 'Génesis 1 · Génesis 3 · 2 Corintios 5',
     lectura: '5 min de lectura',
+    pintura: '/charlas/entre-los-arboles.webp',
+    pinturaAlt: 'Pintura: una figura dibujada a lápiz se esconde, agachada y cubierta de hojas, detrás del tronco de un árbol en un bosque con niebla',
+    pinturaCita: 'Génesis 3:8-9',
   },
   {
     slug: 'el-parecido-de-familia',
@@ -190,6 +227,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Antes de cualquier milagro, una voz dijo “este es mi Hijo amado”. Ser hijo de Dios no se gana: se nota en cómo tratas a la gente.',
     textos: 'Mateo 3 · Mateo 5',
     lectura: '4 min de lectura',
+    pintura: '/charlas/el-parecido-de-familia.webp',
+    pinturaAlt: 'Pintura: un hombre dibujado a lápiz, de espaldas, de pie dentro de un río al amanecer, con la niebla iluminándose de ocre',
+    pinturaCita: 'Mateo 3:17',
   },
   {
     slug: 'alma',
@@ -200,6 +240,9 @@ export const CHARLAS: Charla[] = [
     resumen: 'Por qué esto se llama Alma: polvo sostenido por el aliento de Dios, y un Dios que se detiene a mirar lo que hizo, no para dudar sino para deleitarse.',
     textos: 'Génesis 1 · Génesis 2',
     lectura: '4 min de lectura',
+    pintura: '/charlas/alma.webp',
+    pinturaAlt: 'Pintura: una figura humana hecha de tierra y trazos de lápiz, tendida en un campo arado, mientras un soplo de niebla ocre llega hasta su pecho',
+    pinturaCita: 'Génesis 2:7',
   },
 ];
 
