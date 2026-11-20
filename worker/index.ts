@@ -80,6 +80,13 @@ export default {
         return json({ error: 'no se pudo guardar' }, 500);
       }
     }
-    return env.ASSETS.fetch(request);
+    const respuesta = await env.ASSETS.fetch(request);
+    if (pathname.startsWith('/media/')) {
+      // Sin este encabezado Chrome trata el video como no adelantable y el scroll no puede moverlo.
+      const headers = new Headers(respuesta.headers);
+      headers.set('Accept-Ranges', 'bytes');
+      return new Response(respuesta.body, { status: respuesta.status, statusText: respuesta.statusText, headers });
+    }
+    return respuesta;
   },
 } satisfies ExportedHandler<Env>;
