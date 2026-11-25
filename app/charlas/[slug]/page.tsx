@@ -113,7 +113,7 @@ export default async function CharlaPage({ params }: Params) {
               </div>
 
               <aside className="lateral">
-                {esLaUltima ? (
+                {esLaUltima ? (PROXIMA && (
                   <div className="card-line">
                     <p className="kicker">EL PRÓXIMO DOMINGO · CHARLA {PROXIMA.n}</p>
                     <p className="lemon" style={{ margin: 0, fontSize: 20, lineHeight: 1.25 }}>{PROXIMA.titulo.toUpperCase()}</p>
@@ -123,7 +123,7 @@ export default async function CharlaPage({ params }: Params) {
                       <Link className="btn btn-ghost" href="/charlas/#esta-semana">ANTES DE ALMA</Link>
                     </div>
                   </div>
-                ) : siguiente ? (
+                )) : siguiente ? (
                   <Link className="card-line card-link" href={`/charlas/${siguiente.slug}/`}>
                     <p className="kicker">LA SIGUIENTE · CHARLA {siguiente.n}</p>
                     <p className="lemon" style={{ margin: 0, fontSize: 20, lineHeight: 1.25 }}>{siguiente.titulo.toUpperCase()}</p>

@@ -68,6 +68,7 @@ export default function CharlasPage() {
         )}
 
 
+        {PROXIMA && (
         <section aria-labelledby="esta-semana" style={{ padding: 'clamp(20px, 3vw, 28px) var(--pad-x) 0' }}>
           <div className="wrap proxima">
             <figure className="proxima-figure">
@@ -86,6 +87,7 @@ export default function CharlasPage() {
             </div>
           </div>
         </section>
+        )}
 
         <section aria-labelledby="todas" style={{ padding: 'clamp(48px, 6vw, 80px) var(--pad-x) clamp(56px, 7vw, 96px)' }}>
           <CharlasIndex charlas={CHARLAS} />

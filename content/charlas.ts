@@ -6,7 +6,7 @@
  *    La vista previa para compartir (`<slug>-og.jpg`) se genera con `npm run og`.
  * 4. Actualiza PROXIMA con la charla que viene y su Antes de Alma en `public/antes-de-alma/`.
  */
-export type Bloque = 'jesus' | 'pecado' | 'dios' | 'otras' | 'inicio';
+export type Bloque = 'espiritu' | 'jesus' | 'pecado' | 'dios' | 'otras' | 'inicio';
 
 export type Charla = {
   slug: string;
@@ -39,6 +39,7 @@ export type Proxima = {
 };
 
 export const BLOQUES: { id: Bloque; nombre: string; etiqueta: string }[] = [
+  { id: 'espiritu', nombre: 'ESPÍRITU SANTO', etiqueta: 'BLOQUE · ESPÍRITU SANTO' },
   { id: 'jesus', nombre: 'JESÚS', etiqueta: 'BLOQUE · JESÚS' },
   { id: 'pecado', nombre: 'PECADO', etiqueta: 'BLOQUE · PECADO' },
   { id: 'otras', nombre: 'OTRAS', etiqueta: 'CHARLA APARTE' },
@@ -46,18 +47,26 @@ export const BLOQUES: { id: Bloque; nombre: string; etiqueta: string }[] = [
   { id: 'inicio', nombre: 'INICIO', etiqueta: 'LOS PRIMEROS DOMINGOS' },
 ];
 
-/** La charla que viene: su Antes de Alma es el único que se publica. */
-export const PROXIMA: Proxima = {
-  n: 15,
-  titulo: 'Os conviene que me vaya',
-  textos: 'Juan 14:15-27 · Juan 16:5-15',
-  idea: 'La última cena. Jesús les dice a sus amigos que se va, y que eso es bueno para ellos. ¿Quién es el que viene cuando Él se vaya? ¿Y qué podría ser mejor que tenerlo al lado en persona?',
-  antesDeAlma: '/antes-de-alma/charla-15.pdf',
-  pintura: '/charlas/os-conviene-que-me-vaya.webp',
-  pinturaAlt: 'Pintura: la última cena dibujada a lápiz, con Jesús al centro de la mesa y una lámpara de aceite cuya llama se inclina',
-};
+/**
+ * La charla que viene: su Antes de Alma es el único que se publica.
+ * Déjala en null mientras no esté listo el Antes de Alma; la tarjeta del listado se oculta sola.
+ */
+export const PROXIMA: Proxima | null = null;
 
 export const CHARLAS: Charla[] = [
+  {
+    slug: 'os-conviene-que-me-vaya',
+    n: 15,
+    titulo: 'Os conviene que me vaya',
+    bloque: 'espiritu',
+    frase: 'El Espíritu Santo no es algo que se siente. Es alguien que se queda.',
+    resumen: '¿Cómo puede ser mejor que Jesús se vaya? Un abogado que se planta a tu lado, una voz que no condena y el aliento que le da nombre a Alma.',
+    textos: 'Juan 14 · Juan 16 · Juan 20',
+    lectura: '6 min de lectura',
+    pintura: '/charlas/os-conviene-que-me-vaya.webp',
+    pinturaAlt: 'Pintura: la última cena dibujada a lápiz, con Jesús al centro de la mesa y una lámpara de aceite cuya llama se inclina',
+    pinturaCita: 'Juan 16:7',
+  },
   {
     slug: 'en-el-nombre',
     n: 14,
